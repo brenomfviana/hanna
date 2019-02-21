@@ -9,39 +9,35 @@ using UnityEngine.Tilemaps;
  */
 public class MapGenerator : MonoBehaviour {
 
+    // Map dimension
     public int width;
     public int height;
 
-    public string seed;
-    public bool useRandomSeed;
-
-    [Range(0, 100)]
-    public int randomFillPercent;
-
+    // Map
     public Tilemap grid;
     public Tile floor;
     public Tile wall;
 
+    // Generation parameters
+    public string seed;
+    public bool useRandomSeed;
+    [Range(0, 100)]
+    public int randomFillPercent;
     int[,] map;
     
-    void Start()
-    {
+    void Start() {
         GenerateMap();
     }
 
-    void Update()
-    {
-        if (map != null)
-        {
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                {
-                    if (map[x, y] == 1)
-                    {
+    void Update() {
+        // Check if the map was created
+        if (map != null) {
+            // Print map
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++)  {
+                    if (map[x, y] == 1) {
                         grid.SetTile(new Vector3Int(x, y, 0), wall);
-                    } else
-                    {
+                    } else {
                         grid.SetTile(new Vector3Int(x, y, 0), floor);
                     }
                 }
@@ -49,98 +45,82 @@ public class MapGenerator : MonoBehaviour {
         }
     }
 
-    void GenerateMap()
-    {
+    void GenerateMap() {
+        // Init map
         map = new int[width, height];
         RandomFillMap();
-
-        for (int i = 0; i < 5; i++)
-        {
-            SmoothMap();
+        // Build cave
+        for (int i = 0; i < 5; i++) {
+            BuildCave();
         }
     }
 
-
-    void RandomFillMap()
-    {
-        if (useRandomSeed)
-        {
-            seed = Time.time.ToString();
+    void RandomFillMap() {
+        // Check if the random seed is on
+        if (useRandomSeed) {
+            // Get a seed
+            seed = System.DateTime.Now + " ";
         }
-
+        // Init random system
         System.Random pseudoRandom = new System.Random(seed.GetHashCode());
-
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                if (x == 0 || x == width - 1 || y == 0 || y == height - 1)
-                {
+        // Fill map
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (x == 0 || x == width - 1 || y == 0 || y == height - 1) {
                     map[x, y] = 1;
-                }
-                else
-                {
+                } else {
                     map[x, y] = (pseudoRandom.Next(0, 100) < randomFillPercent) ? 1 : 0;
                 }
             }
         }
     }
 
-    void SmoothMap()
-    {
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
+    void BuildCave() {
+        // Cellular Automata approach
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                // Get amount of neighbours
                 int neighbourWallTiles = GetSurroundingWallCount(x, y);
-
-                if (neighbourWallTiles > 4)
+                // Check if is a wall
+                if (neighbourWallTiles > 3) {
                     map[x, y] = 1;
-                else if (neighbourWallTiles < 4)
+                } else if (neighbourWallTiles < 3) {
                     map[x, y] = 0;
-
+                }
             }
         }
     }
 
-    int GetSurroundingWallCount(int gridX, int gridY)
-    {
+    int GetSurroundingWallCount(int w, int h) {
         int wallCount = 0;
-        for (int neighbourX = gridX - 1; neighbourX <= gridX + 1; neighbourX++)
-        {
-            for (int neighbourY = gridY - 1; neighbourY <= gridY + 1; neighbourY++)
-            {
-                if (neighbourX >= 0 && neighbourX < width && neighbourY >= 0 && neighbourY < height)
-                {
-                    if (neighbourX != gridX || neighbourY != gridY)
-                    {
-                        wallCount += map[neighbourX, neighbourY];
-                    }
-                }
-                else
-                {
-                    wallCount++;
-                }
+        if (h - 1 >= 0 && map[w, h - 1] == 1) {
+            wallCount++;
+        }
+        if (h + 1 < height && map[w, h + 1] == 1) {
+            wallCount++;
+        }
+        if (w - 1 >= 0 && map[w - 1, h] == 1) {
+            wallCount++;
+        }
+        if (w + 1 < width && map[w + 1, h] == 1) {
+            wallCount++;
+        }
+        // Check if y is even
+        if (w % 2 == 0) {
+            if ((w - 1 >= 0 && h - 1 >= 0) && map[w - 1, h - 1] == 1) {
+                wallCount++;
+            }
+            if (w + 1 < width && (h - 1 >= 0) && map[w + 1, h - 1] == 1) {
+                wallCount++;
+            }
+        } else {
+            if ((w - 1 >= 0 && h + 1 < height) && map[w - 1, h + 1] == 1) {
+                wallCount++;
+            }
+            if ((w + 1 < width && h + 1 < height) && map[w + 1, h + 1] == 1) {
+                wallCount++;
             }
         }
-
         return wallCount;
-    }
-
-
-    void OnDrawGizmos()
-    {
-        if (map != null)
-        {
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                {
-                    Gizmos.color = (map[x, y] == 1) ? Color.black : Color.white;
-                    Vector3 pos = new Vector3(-width / 2 + x + .5f, 0, -height / 2 + y + .5f);
-                    Gizmos.DrawCube(pos, Vector3.one);
-                }
-            }
-        }
     }
 }
