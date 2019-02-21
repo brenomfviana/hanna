@@ -6,13 +6,19 @@ HANNA is a HexAgrid caverN geNerAtion.
 
 ### TODO
 
- - [ ] Hexagrid;
- - [ ] Cave generation with Cellular Automata (CA);
+ - [x] Hexagrid;
+ - [x] Cave generation with a simple Cellular Automata (CA);
  - [ ] Genetict Algorithm (GA) for evolution of CA rules.
 
-## Sample
+## Samples
 
-> ...
+<div style="margin: 0 auto; max-width: 250px;">
+	<p align="center">
+		<img height="210px" src ="imgs/cave1.png"/>
+		<img height="210px" src ="imgs/cave2.png"/>
+	</p>
+</div>
+
 
 ## Author
 
