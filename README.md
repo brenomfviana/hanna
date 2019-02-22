@@ -4,6 +4,10 @@
 
 HANNA is a HexAgrid caverN geNerAtion.
 
+### Requirements
+
+- Unity 2018.3 or later.
+
 ### TODO
 
  - [x] Hexagrid;
