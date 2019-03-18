@@ -2,13 +2,13 @@
 
 ## Description
 
-HANNA is a HexAgrid caverN geNerAtion.
+HANNA is a hexagrid cavern generation.
 
-### Requirements
+### Dependencies
 
 - Unity 2018.3 or later.
 
-### TODO
+### Features
 
  - [x] Hexagrid;
  - [x] Cave generation with a simple Cellular Automata (CA);
@@ -23,9 +23,12 @@ HANNA is a HexAgrid caverN geNerAtion.
 	</p>
 </div>
 
-
 ## Author
 
 [<img src="https://avatars2.githubusercontent.com/u/17532418?v=3&s=400" width="100"/>](https://github.com/brenov) |
 ---|
 [Breno Viana](https://github.com/brenov) |
+
+## License
+
+This project is licensed under MIT license - see the [MIT](LICENSE) file for details.
