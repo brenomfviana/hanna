@@ -22,12 +22,6 @@ HANNA is a hexagrid cavern generator. This project is a small extension of the c
 	</p>
 </div>
 
-## Author
-
-[<img src="https://avatars2.githubusercontent.com/u/17532418?v=3&s=400" width="100"/>](https://github.com/brenov) |
----|
-[Breno Viana](https://github.com/brenov) |
-
 ## License
 
-This project is licensed under MIT license - see the [MIT](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
