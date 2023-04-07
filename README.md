@@ -17,8 +17,8 @@ HANNA is a hexagrid cavern generator. This project is a small extension of the c
 
 <div style="margin: 0 auto; max-width: 250px;">
 	<p align="center">
-		<img height="210px" src ="imgs/cave1.png"/>
-		<img height="210px" src ="imgs/cave2.png"/>
+		<img height="190px" src ="imgs/cave1.png"/>
+		<img height="190px" src ="imgs/cave2.png"/>
 	</p>
 </div>
 
